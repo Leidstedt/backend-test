@@ -4,4 +4,4 @@ This is a test database for the final project of the Technigo Bootcamp.
 
 ## View it live
 
-No link yet! :)
+https://elin-testdatabase.herokuapp.com/participants
