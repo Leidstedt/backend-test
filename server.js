@@ -2,11 +2,11 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import mongoose from 'mongoose'
-import booksData from './data/books.json'
-import Book from './model/book'
+import testfile from './data/testfile.json'
+import Person from './model/testParticipant.js'
 
 
-const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/project-books"
+const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/project-backendtest"
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
 mongoose.Promise = Promise
 
@@ -16,8 +16,8 @@ if (process.env.RESET_DATABASE) {
   console.log('Resetting database')
 
   const seedDatabase = async () => {
-      await Book.deleteMany()
-      await booksData.forEach((book) => new Book(book).save())
+      await Person.deleteMany()
+      await testfile.forEach((person) => new Person(person).save())
   }
   seedDatabase()
 }
@@ -45,19 +45,15 @@ app.use((req, res, next) => {
 // ROUTES
 app.get('/', (req, res) => {
   res.send(`
-  <h1>500 book reviews</h1>
-  <h3>Read moore...</h3>
-  <li>/books</li>
-  <li>/books/autors/:authors</li>
-  <li>/books/ID/:bookID</li>
+  <h1>Test Database</h1>
   `)
 })
 
 
 
-// List of all books
-app.get('/books', async (req, res) => {
-  const item = await Book.find();
+// List of all participants
+app.get('/participants', async (req, res) => {
+  const item = await Person.find();
 
   if ( item.length > 0  ) {
     res.json(item)
@@ -66,31 +62,18 @@ app.get('/books', async (req, res) => {
   }
 });
 
-// Route for single book by id
-app.get('/books/ID/:bookID', async ( req, res ) => {
-  const { bookID } = req.params
-  const booksByID = await Book.findOne({ bookID: bookID })
+// Route for category
+app.get('/participants/category/:category', async ( req, res ) => {
+  const { category } = req.params
+  const participantsByCategory = await Person.find({ category: category })
 
-  if ( booksByID) {
-    res.json(booksByID)
+  if (participantsByCategory) {
+    res.json(participantsByCategoryD)
   } else {
-    res.status(404).json({ message: `Error, can not find the book.` })
+    res.status(404).json({ message: `Error.` })
   }
 })
 
-
-
-// Find books by author 
-app.get('/books/authors/:authors', async ( req, res ) => {
-  const { authors } = req.params
-  const booksByAuthors = await Book.find({ authors: authors })
-
-  if ( booksByAuthors.length > 0 ) {
-    res.json({ totalResults: booksByAuthors.length, booksByAuthors})
-  } else {
-    res.status(404).json({ message: `Error` })
-  }
-})
 
 
 // Start the server
