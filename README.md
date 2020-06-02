@@ -1,8 +1,7 @@
-# Mongo API Project
+# Back-end test for the final project
 
-This project was made during Technigo frontend boot camp. The objective was to model a database using Mongoose models. This is to
-level up the APIs and start using a database to store and retrieve data from and use that data to produce a RESTful API. 
+This is a test database for the final project of the Technigo Bootcamp. 
 
 ## View it live
 
-https://mongo-api-books.herokuapp.com/
+No link yet! :)
